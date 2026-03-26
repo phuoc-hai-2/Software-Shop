@@ -1,3 +1,5 @@
+import AdminReviewListPage from './pages/AdminReviewListPage';
+  <Route path="/admin/reviews" element={<AdminReviewListPage />} />
 import VnPayReturnPage from './pages/VnPayReturnPage';
 import OrderListPage from './pages/OrderListPage';
 import OrderDetailPage from './pages/OrderDetailPage';
