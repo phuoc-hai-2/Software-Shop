@@ -25,6 +25,15 @@ app.use('/api/orders', require('./routes/order.route'));
 // Payment route
 app.use('/api/payment', require('./routes/payment.route'));
 
+// Review route
+app.use('/api/reviews', require('./routes/review.route'));
+
+// Fulfillment (upload/download file đơn hàng)
+app.use('/api/fulfillment', require('./routes/fulfillment.route'));
+
+// Admin dashboard
+app.use('/api/admin', require('./routes/admin.route'));
+
 app.get('/', (req, res) => {
   res.send('API is running');
 });
