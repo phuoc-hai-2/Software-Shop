@@ -1,4 +1,5 @@
 const Order = require('../models/order.model');
+const User = require('../models/user.model');
 const nodemailer = require('nodemailer');
 
 // Admin upload file và chuyển trạng thái Completed
@@ -8,7 +9,12 @@ exports.uploadFile = async (req, res) => {
   const order = await Order.findByIdAndUpdate(id, { fileUrl: req.file.path, status: 'Completed' }, { new: true });
   if (!order) return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
   // Gửi email cho user
-  sendEmail(order.user, order.fileUrl);
+  try {
+    const user = await User.findById(order.user);
+    if (user && user.email) {
+      await sendOrderEmail(user.email, order, 'completed');
+    }
+  } catch (e) { console.log('Send email error:', e.message); }
   res.json(order);
 };
 
@@ -20,8 +26,19 @@ exports.downloadFile = async (req, res) => {
   res.download(order.fileUrl);
 };
 
-async function sendEmail(userId, fileUrl) {
-  // TODO: Lấy email user từ userId, gửi email có link fileUrl
-  // Placeholder: chỉ gửi log
-  console.log(`Gửi email cho user ${userId} với file: ${fileUrl}`);
+// Gửi email đơn hàng (dùng chung với payment.controller)
+async function sendOrderEmail(email, order, type) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+  });
+  let subject = '', html = '';
+  if (type === 'paid') {
+    subject = 'Xác nhận thanh toán đơn hàng';
+    html = `<p>Đơn hàng #${order._id} đã được thanh toán thành công.</p><p>Chúng tôi sẽ xử lý và gửi file nhận hàng sớm nhất.</p>`;
+  } else if (type === 'completed') {
+    subject = 'Đơn hàng đã hoàn thành';
+    html = `<p>Đơn hàng #${order._id} đã hoàn thành.</p><p>Bạn có thể tải file nhận hàng tại trang chi tiết đơn hàng.</p>`;
+  }
+  await transporter.sendMail({ from: process.env.EMAIL_USER, to: email, subject, html });
 }
