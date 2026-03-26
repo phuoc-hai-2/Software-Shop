@@ -1,3 +1,5 @@
+import VnPayReturnPage from './pages/VnPayReturnPage';
+import CheckoutPage from './pages/CheckoutPage';
 import CartPage from './pages/CartPage';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -18,6 +20,8 @@ function App() {
       <Route path="/products" element={<ProductListPage />} />
       <Route path="/product/:id" element={<ProductDetailPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/checkout/:id" element={<CheckoutPage />} />
+      <Route path="/vnpay-return" element={<VnPayReturnPage />} />
       {/* TODO: Add more routes */}
     </Routes>
   );
