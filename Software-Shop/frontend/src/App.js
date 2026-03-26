@@ -3,6 +3,12 @@ import OrderListPage from './pages/OrderListPage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CartPage from './pages/CartPage';
+import AdminUserListPage from './pages/AdminUserListPage';
+import AdminUserDetailPage from './pages/AdminUserDetailPage';
+import AdminPaymentListPage from './pages/AdminPaymentListPage';
+import AdminPaymentDetailPage from './pages/AdminPaymentDetailPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+  <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -26,7 +32,11 @@ function App() {
       <Route path="/vnpay-return" element={<VnPayReturnPage />} />
       <Route path="/orders" element={<OrderListPage />} />
       <Route path="/order/:id" element={<OrderDetailPage />} />
-      {/* TODO: Add more routes */}
+      {/* Admin routes */}
+      <Route path="/admin/users" element={<AdminUserListPage />} />
+      <Route path="/admin/user/:id" element={<AdminUserDetailPage />} />
+      <Route path="/admin/payments" element={<AdminPaymentListPage />} />
+      <Route path="/admin/payment/:id" element={<AdminPaymentDetailPage />} />
     </Routes>
   );
 }
