@@ -1,6 +1,52 @@
 const User = require('../models/user.model');
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
+// --- USER MANAGEMENT ---
+// Danh sách user
+exports.userList = async (req, res) => {
+  const users = await User.find().select('-password');
+  res.json(users);
+};
+
+// Chi tiết user
+exports.userDetail = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).select('-password');
+  if (!user) return res.status(404).json({ message: 'Không tìm thấy user' });
+  res.json(user);
+};
+
+// Ban/mở khóa user
+exports.setUserStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body; // 'active' | 'banned'
+  if (!['active', 'banned'].includes(status)) return res.status(400).json({ message: 'Trạng thái không hợp lệ' });
+  const user = await User.findByIdAndUpdate(id, { status }, { new: true }).select('-password');
+  if (!user) return res.status(404).json({ message: 'Không tìm thấy user' });
+  res.json(user);
+};
+
+// Lịch sử mua hàng của user
+exports.userOrderHistory = async (req, res) => {
+  const { id } = req.params;
+  const orders = await Order.find({ user: id }).sort({ createdAt: -1 });
+  res.json(orders);
+};
+
+// --- PAYMENT MANAGEMENT ---
+// Lịch sử giao dịch toàn hệ thống
+exports.paymentList = async (req, res) => {
+  const orders = await Order.find().sort({ createdAt: -1 });
+  res.json(orders);
+};
+
+// Chi tiết giao dịch
+exports.paymentDetail = async (req, res) => {
+  const { id } = req.params;
+  const order = await Order.findById(id);
+  if (!order) return res.status(404).json({ message: 'Không tìm thấy giao dịch' });
+  res.json(order);
+};
 
 exports.dashboardStats = async (req, res) => {
   const totalRevenue = await Order.aggregate([
