@@ -14,6 +14,17 @@ app.use(morgan('dev'));
 // Auth routes
 app.use('/api/auth', require('./routes/auth.route'));
 
+// Product & Category routes
+app.use('/api/products', require('./routes/product.route'));
+app.use('/api/categories', require('./routes/category.route'));
+
+// Cart & Order routes
+app.use('/api/cart', require('./routes/cart.route'));
+app.use('/api/orders', require('./routes/order.route'));
+
+// Payment route
+app.use('/api/payment', require('./routes/payment.route'));
+
 app.get('/', (req, res) => {
   res.send('API is running');
 });
