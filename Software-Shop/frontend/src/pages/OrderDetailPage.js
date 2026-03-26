@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Descriptions, Tag, Table, Button, message, Spin } from 'antd';
+import OrderMenu from '../components/OrderMenu';
 import axios from 'axios';
 
 const statusColor = {
@@ -61,6 +62,7 @@ const OrderDetailPage = () => {
 
   return (
     <div style={{ maxWidth: 700, margin: '40px auto' }}>
+      <OrderMenu />
       <Card title={`Chi tiết đơn hàng #${order._id}`}>
         <Descriptions column={1} bordered>
           <Descriptions.Item label="Trạng thái"><Tag color={statusColor[order.status] || 'default'}>{order.status}</Tag></Descriptions.Item>

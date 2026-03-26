@@ -1,4 +1,6 @@
 import VnPayReturnPage from './pages/VnPayReturnPage';
+import OrderListPage from './pages/OrderListPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CartPage from './pages/CartPage';
 import React from 'react';
@@ -22,6 +24,8 @@ function App() {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout/:id" element={<CheckoutPage />} />
       <Route path="/vnpay-return" element={<VnPayReturnPage />} />
+      <Route path="/orders" element={<OrderListPage />} />
+      <Route path="/order/:id" element={<OrderDetailPage />} />
       {/* TODO: Add more routes */}
     </Routes>
   );

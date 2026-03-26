@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Tag, Button, Spin } from 'antd';
+import OrderMenu from '../components/OrderMenu';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,6 +45,7 @@ const OrderListPage = () => {
 
   return (
     <div style={{ padding: 32 }}>
+      <OrderMenu />
       <h2>Lịch sử đơn hàng</h2>
       <Table rowKey="_id" columns={columns} dataSource={orders} loading={loading} pagination={false} />
     </div>
